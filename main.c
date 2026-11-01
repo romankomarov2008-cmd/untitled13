@@ -1,30 +1,27 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include "Date.h"
 
-typedef struct {
-    int numerator;
-    unsigned int denominator;
-} Rational;
+int main() {
+    Date date_tests[] = {
+        {2026, 10, 8},
+        {2024, 7, 31},
+        {2017, 12, 31},
+        {2020, 2, 29}
+    };
 
-unsigned int gcd(unsigned int a, unsigned int b) {
-    while (b != 0) {
-        unsigned int temp = b;
-        b = a % b;
-        a = temp;
+    Date date_tests_res[] =
+        {
+        {2026, 10, 9},
+        {2024, 8, 1},
+        {2018, 1, 1},
+        {2020, 3, 1}
+    };
+    int n_tests = sizeof(date_tests)/sizeof(Date);
+    for (int i=0; i<n_tests; i++) {
+        printDate(date_tests[i]);
+        if (tomorrow(date_tests[i]) != date_tests_res[i]) {
+            printf(" test %d failed", i);
+        }
     }
-    return a;
-}
 
-Rational reduce(Rational r) {
-    if (r.denominator == 0) {
-        r.denominator = 1;
-        return r;
-    }
-
-    unsigned int abs_num = abs(r.numerator);
-    unsigned int common_div = gcd(r.denominator, abs_num);
-    r.numerator /= (int)common_div;
-    r.denominator /= common_div;
-    return r;
 }
